@@ -7,7 +7,7 @@ var AuthorSchema = new Schema(
     first_name: {type: String, required: true, maxLength: 100},
     family_name: {type: String, required: true, maxLength: 100},
     date_of_birth: {type: Date},
-    date_of_death: {type: Date},
+    date_of_death: {type: Date}
   }
 );
 
@@ -28,7 +28,11 @@ AuthorSchema
 });
 
 // Virtual for author's lifespan
-AuthorSchema.virtual('lifespan').get(function() {});
+AuthorSchema.virtual('lifespan').get(function() {
+  const birth = this.date_of_birth.getUTCFullYear();
+  const death = this.date_of_birth.getUTCFullYear();
+  return `${birth} - ${death}`
+});
 
 //Export model
 module.exports = mongoose.model('Author', AuthorSchema);
